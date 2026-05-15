@@ -1,0 +1,51 @@
+{
+	"Name": "SteelSeries Wireless Battery",
+	"Version": "1.0.0.0",
+	"Author": "0xjessel",
+	"Actions": [
+		{
+			"Name": "Battery Level",
+			"UUID": "com.0xjessel.steelserie-wireless-battery.battery-level",
+			"Icon": "imgs/actions/battery-level/headphones",
+			"Tooltip": "Display the battery level of your SteelSeries headset or mouse",
+			"PropertyInspectorPath": "ui/battery-level.html",
+			"Controllers": [
+				"Keypad"
+			],
+			"States": [
+				{
+					"Image": "imgs/actions/battery-level/headphones",
+					"TitleAlignment": "bottom",
+					"FontSize": 6,
+					"FontFamily": "Arial",
+					"ShowTitle": true
+				}
+			],
+			"UserTitleEnabled": false
+		}
+	],
+	"Category": "SteelSeries Wireless Battery",
+	"CategoryIcon": "imgs/plugin/headphones",
+	"CodePath": "bin/plugin.js",
+	"Description": "Display the battery level of your SteelSeries headset or mouse",
+	"Icon": "imgs/plugin/marketplace",
+	"SDKVersion": 2,
+	"Software": {
+		"MinimumVersion": "6.4"
+	},
+	"OS": [
+		{
+			"Platform": "mac",
+			"MinimumVersion": "12"
+		},
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
+	],
+	"Nodejs": {
+		"Version": "20",
+		"Debug": "enabled"
+	},
+	"UUID": "com.0xjessel.steelserie-wireless-battery"
+}

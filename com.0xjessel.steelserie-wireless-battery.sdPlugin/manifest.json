@@ -1,11 +1,11 @@
 {
-	"Name": "SteelSeries Battery",
+	"Name": "SteelSeries Wireless Battery",
 	"Version": "1.0.0.0",
 	"Author": "0xjessel",
 	"Actions": [
 		{
 			"Name": "Battery Level",
-			"UUID": "com.0xjessel.arctis-headset-battery.battery-level",
+			"UUID": "com.0xjessel.steelserie-wireless-battery.battery-level",
 			"Icon": "imgs/actions/battery-level/headphones",
 			"Tooltip": "Display the battery level of your SteelSeries headset or mouse",
 			"PropertyInspectorPath": "ui/battery-level.html",
@@ -24,7 +24,7 @@
 			"UserTitleEnabled": false
 		}
 	],
-	"Category": "SteelSeries Battery",
+	"Category": "SteelSeries Wireless Battery",
 	"CategoryIcon": "imgs/plugin/headphones",
 	"CodePath": "bin/plugin.js",
 	"Description": "Display the battery level of your SteelSeries headset or mouse",
@@ -47,5 +47,5 @@
 		"Version": "20",
 		"Debug": "enabled"
 	},
-	"UUID": "com.0xjessel.arctis-headset-battery"
+	"UUID": "com.0xjessel.steelserie-wireless-battery"
 }

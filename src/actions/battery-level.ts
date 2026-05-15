@@ -290,7 +290,7 @@ function getDynamicBatteryIcon(state: BatteryState, settings: Settings): string 
   return toImageDataUri(svg);
 }
 
-@action({ UUID: 'com.0xjessel.arctis-headset-battery.battery-level' })
+@action({ UUID: 'com.0xjessel.steelserie-wireless-battery.battery-level' })
 export class BatteryLevelAction extends SingletonAction<Settings> {
   private readonly runtimes = new Map<string, ActionRuntime>();
   private hidQueue: Promise<void> = Promise.resolve();

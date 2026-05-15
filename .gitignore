@@ -12,7 +12,7 @@ yarn-error.log*
 # Build artifacts
 dist/
 build/
-com.0xjessel.arctis-headset-battery/logs/
+com.0xjessel.steelserie-wireless-battery/logs/
 
 # IDE - VSCode
 .vscode/

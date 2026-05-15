@@ -1,16 +1,16 @@
 {
-    "name": "arctis-headset-battery",
+    "name": "steelserie-wireless-battery",
     "version": "1.0.0",
     "description": "Stream Deck plugin to display supported SteelSeries headset and mouse battery levels",
     "author": "0xjessel",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/0xjessel/arctis-headset-battery.git"
+        "url": "https://github.com/0xjessel/steelserie-wireless-battery.git"
     },
     "scripts": {
         "build": "rollup -c",
-        "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.0xjessel.arctis-headset-battery\"",
+        "watch": "rollup -c -w --watch.onEnd=\"streamdeck restart com.0xjessel.steelserie-wireless-battery\"",
         "read:battery": "tsx src/scripts/read-battery.ts"
     },
     "type": "module",

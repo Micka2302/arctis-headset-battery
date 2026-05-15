@@ -1,10 +1,10 @@
-# SteelSeries Battery - Stream Deck Plugin
+# SteelSeries Wireless Battery - Stream Deck Plugin
 
 Stream Deck plugin for displaying the battery level of supported SteelSeries wireless headsets and mice.
 
 The plugin was originally built for Arctis headsets and now also supports Arctis Nova 7 Gen 2 Wireless and Aerox 5 Wireless.
 
-![SteelSeries Battery Plugin](com.0xjessel.arctis-headset-battery.sdPlugin/imgs/plugin/marketplace.png)
+![SteelSeries Wireless Battery Plugin](com.0xjessel.steelserie-wireless-battery.sdPlugin/imgs/plugin/marketplace.png)
 
 ## Features
 
@@ -117,7 +117,7 @@ Or with the direct Windows npm command:
 Validate the plugin:
 
 ```powershell
-npm exec streamdeck -- validate com.0xjessel.arctis-headset-battery.sdPlugin
+npm exec streamdeck -- validate com.0xjessel.steelserie-wireless-battery.sdPlugin
 ```
 
 ## Development Commands
@@ -171,25 +171,25 @@ npm exec streamdeck -- dev
 Link the plugin during development:
 
 ```powershell
-npm exec streamdeck -- link com.0xjessel.arctis-headset-battery.sdPlugin
+npm exec streamdeck -- link com.0xjessel.steelserie-wireless-battery.sdPlugin
 ```
 
 Restart the plugin:
 
 ```powershell
-npm exec streamdeck -- restart com.0xjessel.arctis-headset-battery
+npm exec streamdeck -- restart com.0xjessel.steelserie-wireless-battery
 ```
 
 If the plugin is already installed and not linked, copy the built plugin files into:
 
 ```text
-%APPDATA%\Elgato\StreamDeck\Plugins\com.0xjessel.arctis-headset-battery.sdPlugin
+%APPDATA%\Elgato\StreamDeck\Plugins\com.0xjessel.steelserie-wireless-battery.sdPlugin
 ```
 
 Because `node-hid` is a native dependency and is external in the Rollup build, make sure it exists in the installed plugin folder:
 
 ```powershell
-$installed = Resolve-Path "$env:APPDATA\Elgato\StreamDeck\Plugins\com.0xjessel.arctis-headset-battery.sdPlugin"
+$installed = Resolve-Path "$env:APPDATA\Elgato\StreamDeck\Plugins\com.0xjessel.steelserie-wireless-battery.sdPlugin"
 & "C:\Program Files\nodejs\npm.cmd" install --omit=dev --prefix $installed.Path node-hid@3.1.2
 ```
 

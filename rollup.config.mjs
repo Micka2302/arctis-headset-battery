@@ -6,7 +6,7 @@ import path from "node:path";
 import url from "node:url";
 
 const isWatching = !!process.env.ROLLUP_WATCH;
-const sdPlugin = "com.0xjessel.arctis-headset-battery.sdPlugin";
+const sdPlugin = "com.0xjessel.steelserie-wireless-battery.sdPlugin";
 
 /**
  * @type {import('rollup').RollupOptions}
