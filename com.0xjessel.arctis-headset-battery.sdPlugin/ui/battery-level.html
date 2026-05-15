@@ -12,8 +12,90 @@
         Learn more about property inspector components at https://sdpi-components.dev/docs/components
     -->
     <sdpi-item label="Polling Interval (seconds)">
-        <sdpi-range setting="pollingInterval" min="5" max="60" step="5" default="15" showlabels></sdpi-range>
+        <sdpi-range setting="pollingInterval" min="1" max="60" step="1" default="5" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Device Type">
+        <sdpi-select setting="deviceType" default="auto">
+            <option value="auto">Auto</option>
+            <option value="headset">Headsets only</option>
+            <option value="mouse">Mice only</option>
+        </sdpi-select>
+    </sdpi-item>
+    <sdpi-item label="Battery Icon">
+        <sdpi-checkbox setting="dynamicIcon" default="true">Dynamic battery icon</sdpi-checkbox>
+    </sdpi-item>
+    <sdpi-item label="Percent Position">
+        <sdpi-select setting="percentPosition" default="title">
+            <option value="title">Stream Deck title</option>
+            <option value="top">Top</option>
+            <option value="center">Center</option>
+            <option value="bottom">Bottom</option>
+            <option value="custom">Custom</option>
+            <option value="hidden">Hidden</option>
+        </sdpi-select>
+    </sdpi-item>
+    <sdpi-item label="Custom Text">
+        <sdpi-textfield setting="customText" placeholder="{battery}"></sdpi-textfield>
+    </sdpi-item>
+    <sdpi-item label="Text X">
+        <sdpi-range setting="customTextX" min="0" max="144" step="1" default="72" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Text Y">
+        <sdpi-range setting="customTextY" min="0" max="144" step="1" default="122" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Text Size">
+        <sdpi-range setting="customTextSize" min="10" max="56" step="1" default="24" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Text Color">
+        <sdpi-color setting="customTextColor" default="#ffffff"></sdpi-color>
+    </sdpi-item>
+    <sdpi-item label="Outline Color">
+        <sdpi-color setting="customTextStrokeColor" default="#111827"></sdpi-color>
+    </sdpi-item>
+    <sdpi-item label="Outline Width">
+        <sdpi-range setting="customTextStrokeWidth" min="0" max="14" step="1" default="4" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Text Opacity">
+        <sdpi-range setting="customTextOpacity" min="0" max="100" step="5" default="100" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Font">
+        <sdpi-select setting="customTextFont" default="arial">
+            <option value="arial">Arial</option>
+            <option value="segoe">Segoe UI</option>
+            <option value="verdana">Verdana</option>
+            <option value="tahoma">Tahoma</option>
+            <option value="trebuchet">Trebuchet MS</option>
+            <option value="georgia">Georgia</option>
+            <option value="impact">Impact</option>
+            <option value="monospace">Monospace</option>
+        </sdpi-select>
+    </sdpi-item>
+    <sdpi-item label="Font Weight">
+        <sdpi-select setting="customTextWeight" default="700">
+            <option value="400">Regular</option>
+            <option value="500">Medium</option>
+            <option value="600">Semi Bold</option>
+            <option value="700">Bold</option>
+            <option value="800">Extra Bold</option>
+            <option value="900">Black</option>
+        </sdpi-select>
+    </sdpi-item>
+    <sdpi-item label="Italic">
+        <sdpi-checkbox setting="customTextItalic" default="false">Italic text</sdpi-checkbox>
+    </sdpi-item>
+    <sdpi-item label="Text Align">
+        <sdpi-select setting="customTextAnchor" default="middle">
+            <option value="start">Left</option>
+            <option value="middle">Center</option>
+            <option value="end">Right</option>
+        </sdpi-select>
+    </sdpi-item>
+    <sdpi-item label="Rotation">
+        <sdpi-range setting="customTextRotation" min="-180" max="180" step="5" default="0" showlabels></sdpi-range>
+    </sdpi-item>
+    <sdpi-item label="Letter Spacing">
+        <sdpi-range setting="customTextLetterSpacing" min="-5" max="12" step="1" default="0" showlabels></sdpi-range>
     </sdpi-item>
 </body>
 
-</html> 
+</html>

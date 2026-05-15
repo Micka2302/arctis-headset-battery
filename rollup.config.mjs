@@ -13,6 +13,7 @@ const sdPlugin = "com.0xjessel.arctis-headset-battery.sdPlugin";
  */
 const config = {
 	input: "src/plugin.ts",
+	external: ["node-hid"],
 	output: {
 		file: `${sdPlugin}/bin/plugin.js`,
 		sourcemap: isWatching,

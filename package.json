@@ -1,7 +1,7 @@
 {
     "name": "arctis-headset-battery",
     "version": "1.0.0",
-    "description": "Stream Deck plugin to display SteelSeries Arctis headset battery level",
+    "description": "Stream Deck plugin to display supported SteelSeries headset and mouse battery levels",
     "author": "0xjessel",
     "license": "MIT",
     "repository": {

@@ -1,5 +1,5 @@
 {
-	"Name": "Arctis Headset Battery",
+	"Name": "SteelSeries Battery",
 	"Version": "1.0.0.0",
 	"Author": "0xjessel",
 	"Actions": [
@@ -7,7 +7,7 @@
 			"Name": "Battery Level",
 			"UUID": "com.0xjessel.arctis-headset-battery.battery-level",
 			"Icon": "imgs/actions/battery-level/headphones",
-			"Tooltip": "Display the battery level of your Arctis headset",
+			"Tooltip": "Display the battery level of your SteelSeries headset or mouse",
 			"PropertyInspectorPath": "ui/battery-level.html",
 			"Controllers": [
 				"Keypad"
@@ -24,10 +24,10 @@
 			"UserTitleEnabled": false
 		}
 	],
-	"Category": "Arctis Headset Battery",
+	"Category": "SteelSeries Battery",
 	"CategoryIcon": "imgs/plugin/headphones",
 	"CodePath": "bin/plugin.js",
-	"Description": "Display the battery level of your Arctis headset",
+	"Description": "Display the battery level of your SteelSeries headset or mouse",
 	"Icon": "imgs/plugin/marketplace",
 	"SDKVersion": 2,
 	"Software": {

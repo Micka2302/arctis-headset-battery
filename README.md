@@ -1,6 +1,6 @@
-# Arctis Headset Battery - Stream Deck Plugin
+# SteelSeries Battery - Stream Deck Plugin
 
-A Stream Deck plugin that displays the battery level of your SteelSeries Arctis wireless headset.
+A Stream Deck plugin that displays the battery level of supported SteelSeries wireless headsets and mice.
 
 ![Arctis Headset Battery Plugin](com.0xjessel.arctis-headset-battery.sdPlugin/imgs/plugin/marketplace.png)
 
@@ -13,18 +13,20 @@ A Stream Deck plugin that displays the battery level of your SteelSeries Arctis 
 - Displays battery percentage (0-100%) with charging indicator (⚡)
 - Configurable polling interval (5-60 seconds, default: 15s)
 - Force fetch battery status by pressing the key
-- Visual indicator when headset is disconnected (-)
-- Automatic charging detection when connected via USB
+- Visual indicator when the selected device is disconnected (-)
+- Device type filter for auto/headset/mouse
+- Automatic charging detection where supported by the device protocol
 
 ## Usage
 
 1. Add the "Battery Level" action to your Stream Deck
-2. The key will display:
+2. In the action settings, choose Auto, Headsets only, or Mice only if you have more than one supported device connected
+3. The key will display:
    - Battery percentage and charging icon when connected (e.g., "100% ⚡")
    - Charging icon only ("⚡") when disconnected but charging via USB
    - Dash ("-") when disconnected and not charging
-3. Press the key at any time to force an immediate battery status update
-4. Configure the polling interval in settings (default: 15 seconds)
+4. Press the key at any time to force an immediate battery status update
+5. Configure the polling interval in settings (default: 15 seconds)
 
 ## Supported Devices
 
@@ -44,6 +46,15 @@ The following devices are supported in code but have not been verified:
   - Vendor ID: `0x1038`
 - SteelSeries Arctis 1 Wireless
   - Product ID: `0x12b3`
+  - Vendor ID: `0x1038`
+- SteelSeries Arctis Nova 7 Gen 2 Wireless
+  - Product ID: `0x227e`
+  - Vendor ID: `0x1038`
+- SteelSeries Aerox 5 Wireless (wired mode)
+  - Product ID: `0x1854`
+  - Vendor ID: `0x1038`
+- SteelSeries Aerox 5 Wireless (2.4 GHz wireless mode)
+  - Product ID: `0x1852`
   - Vendor ID: `0x1038`
 
 ## Installation
@@ -75,6 +86,8 @@ The following devices are supported in code but have not been verified:
 - `npm run build` - Build the plugin
 - `npm run watch` - Build and watch for changes, automatically restart the plugin
 - `npm run read:battery` - Test script to read battery status directly
+- `npm run read:battery -- --device=headset` - Test only supported headsets
+- `npm run read:battery -- --device=mouse` - Test only supported mice
 
 ## Testing
 
@@ -86,7 +99,7 @@ npm run read:battery
 
 This will:
 
-1. Scan for compatible SteelSeries headsets
+1. Scan for compatible SteelSeries battery devices
 2. Display detailed information about all detected devices
 3. Connect to the appropriate interface
 4. Read and display the battery level
@@ -158,15 +171,31 @@ The plugin includes robust error handling for various scenarios:
    - If charging detection isn't working, ensure the headset is connected directly to your PC (not through a USB hub)
    - If battery updates seem delayed, try reducing the polling interval in settings
 
-### Headset Communication Protocol
+### Device Communication Protocols
 
-The plugin communicates with the headset using the HID (Human Interface Device) protocol. Here's how the battery level is read:
+The plugin communicates with supported devices using the HID (Human Interface Device) protocol. Legacy Arctis battery level is read as follows:
 
 1. **Command**: Send `[0x06, 0x18]` to the headset
 2. **Response**: The headset returns a multi-byte response:
    - Bytes 0-1: Echo of the command (`0x06, 0x18`)
    - Byte 2: Battery level (0-100, sometimes >100)
    - Remaining bytes: Various status information
+
+Arctis Nova 7 Gen 2 Wireless uses a newer HID command:
+
+1. **Command**: Send `[0x00, 0xb0]`
+2. **Response**:
+   - Byte 0: Echo of the command (`0xb0`)
+   - Byte 2: Battery level as a percentage, or a 0-4 scale on some firmware versions
+   - Byte 3: Charging state (`1` charging, `3` discharging)
+
+Aerox 5 Wireless uses the SteelSeries mouse battery command:
+
+1. **Wired command**: Send `[0x00, 0x92]`
+2. **2.4 GHz wireless command**: Send `[0x00, 0xd2]`
+3. **Response**:
+   - Byte 1 lower 7 bits: Battery level bucket
+   - Byte 1 high bit: Charging flag
 
 ### Finding the Correct Interface
 
