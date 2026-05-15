@@ -1,256 +1,287 @@
 # SteelSeries Battery - Stream Deck Plugin
 
-A Stream Deck plugin that displays the battery level of supported SteelSeries wireless headsets and mice.
+Stream Deck plugin for displaying the battery level of supported SteelSeries wireless headsets and mice.
 
-![Arctis Headset Battery Plugin](com.0xjessel.arctis-headset-battery.sdPlugin/imgs/plugin/marketplace.png)
+The plugin was originally built for Arctis headsets and now also supports Arctis Nova 7 Gen 2 Wireless and Aerox 5 Wireless.
 
-## Demo
-
-<img src="assets/arctis_battery.gif" alt="GIF demo" height="500px">
+![SteelSeries Battery Plugin](com.0xjessel.arctis-headset-battery.sdPlugin/imgs/plugin/marketplace.png)
 
 ## Features
 
-- Displays battery percentage (0-100%) with charging indicator (⚡)
-- Configurable polling interval (5-60 seconds, default: 15s)
-- Force fetch battery status by pressing the key
-- Visual indicator when the selected device is disconnected (-)
-- Device type filter for auto/headset/mouse
-- Automatic charging detection where supported by the device protocol
-
-## Usage
-
-1. Add the "Battery Level" action to your Stream Deck
-2. In the action settings, choose Auto, Headsets only, or Mice only if you have more than one supported device connected
-3. The key will display:
-   - Battery percentage and charging icon when connected (e.g., "100% ⚡")
-   - Charging icon only ("⚡") when disconnected but charging via USB
-   - Dash ("-") when disconnected and not charging
-4. Press the key at any time to force an immediate battery status update
-5. Configure the polling interval in settings (default: 15 seconds)
+- Displays battery percentage for supported SteelSeries devices.
+- Supports headsets and mice from the same action.
+- Device filter: auto, headsets only, mice only.
+- Dynamic battery icon shared by headset and mouse actions.
+- Custom text overlay with variables such as `{battery}`, `{charging}`, `{model}`, and `{device}`.
+- Text customization: position, size, color, outline, opacity, font, weight, italic, alignment, rotation, and letter spacing.
+- Configurable polling interval from 1 to 60 seconds.
+- Manual refresh by pressing the Stream Deck key.
+- Keeps the last known battery percentage during short wireless read failures.
+- Fast retry after transient HID disconnects.
 
 ## Supported Devices
 
-- SteelSeries Arctis 7 (2019 Edition) - Verified
-  - Product ID: `0x12ad`
-  - Vendor ID: `0x1038`
-  - Usage: `514`
-  - UsagePage: `65347`
+| Device | Type | Vendor ID | Product ID | Status |
+| --- | --- | --- | --- | --- |
+| SteelSeries Arctis 7 2019 | Headset | `0x1038` | `0x12ad` | Supported |
+| SteelSeries Arctis 7 2017 | Headset | `0x1038` | `0x1260` | Supported in code |
+| SteelSeries Arctis Pro | Headset | `0x1038` | `0x1294` | Supported in code |
+| SteelSeries Arctis 1 Wireless | Headset | `0x1038` | `0x12b3` | Supported in code |
+| SteelSeries Arctis Nova 7 Gen 2 Wireless | Headset | `0x1038` | `0x227e` | Verified |
+| SteelSeries Aerox 5 Wireless, wired mode | Mouse | `0x1038` | `0x1854` | Supported |
+| SteelSeries Aerox 5 Wireless, 2.4 GHz wireless mode | Mouse | `0x1038` | `0x1852` | Verified |
 
-The following devices are supported in code but have not been verified:
+## Requirements
 
-- SteelSeries Arctis 7 (2017 Edition)
-  - Product ID: `0x1260`
-  - Vendor ID: `0x1038`
-- SteelSeries Arctis Pro
-  - Product ID: `0x1294`
-  - Vendor ID: `0x1038`
-- SteelSeries Arctis 1 Wireless
-  - Product ID: `0x12b3`
-  - Vendor ID: `0x1038`
-- SteelSeries Arctis Nova 7 Gen 2 Wireless
-  - Product ID: `0x227e`
-  - Vendor ID: `0x1038`
-- SteelSeries Aerox 5 Wireless (wired mode)
-  - Product ID: `0x1854`
-  - Vendor ID: `0x1038`
-- SteelSeries Aerox 5 Wireless (2.4 GHz wireless mode)
-  - Product ID: `0x1852`
-  - Vendor ID: `0x1038`
+- Stream Deck 6.4 or newer.
+- Node.js 20.5.1 or newer for development/building.
+- Windows 10+ or macOS 12+ as declared in the plugin manifest.
+- `node-hid` native dependency available in the installed plugin folder when running through Stream Deck.
 
-## Installation
+## Usage
 
-1. Clone this repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Build the plugin:
-   ```bash
-   npm run build
-   ```
-4. Set Stream Deck to developer mode
-   ```
-   streamdeck dev
-   ```
-5. Link the plugin
-   ```
-   streamdeck link com.0xjessel.arctis-headset-battery.sdPlugin
-   ```
-6. Restart the plugin
-   ```
-   streamdeck restart com.0xjessel.arctis-headset-battery
-   ```
+1. Add the `Battery Level` action to your Stream Deck.
+2. Choose the target device mode:
+   - `Auto`
+   - `Headsets only`
+   - `Mice only`
+3. Set the polling interval. The default is 5 seconds, and the minimum is 1 second.
+4. Press the key to force an immediate refresh.
+5. Enable `Dynamic battery icon` to render the battery image directly on the key.
 
-## Development
+Battery updates are polling-based, not a real-time stream. Some SteelSeries devices do not update their HID battery value every second, even if the plugin polls quickly.
 
-- `npm run build` - Build the plugin
-- `npm run watch` - Build and watch for changes, automatically restart the plugin
-- `npm run read:battery` - Test script to read battery status directly
-- `npm run read:battery -- --device=headset` - Test only supported headsets
-- `npm run read:battery -- --device=mouse` - Test only supported mice
+## Custom Text
 
-## Testing
+Use `Custom Text` to draw text directly inside the generated icon. If the field is empty, the plugin only uses the Stream Deck title unless `Percent Position` is set to a non-title mode.
 
-You can test the battery reading functionality without installing the Stream Deck plugin:
+Available variables:
 
-```bash
+| Variable | Meaning | Example |
+| --- | --- | --- |
+| `{battery}` | Current battery percentage | `90%` |
+| `{charging}` | Charging symbol when charging | lightning symbol |
+| `{model}` | Detected device model | `Arctis Nova 7 Gen 2 Wireless` |
+| `{device}` | Device kind | `headset` or `mouse` |
+
+Common setup:
+
+```text
+Custom Text: {battery}
+Text X: 72
+Text Y: 122
+Text Size: 24
+```
+
+Text options include:
+
+- X/Y position
+- size
+- color
+- outline color
+- outline width
+- opacity
+- font
+- font weight
+- italic
+- alignment
+- rotation
+- letter spacing
+
+## Install And Build
+
+Install dependencies:
+
+```powershell
+npm install
+```
+
+If PowerShell blocks `npm.ps1`, use:
+
+```powershell
+& "C:\Program Files\nodejs\npm.cmd" install
+```
+
+Build the plugin:
+
+```powershell
+npm run build
+```
+
+Or with the direct Windows npm command:
+
+```powershell
+& "C:\Program Files\nodejs\npm.cmd" run build
+```
+
+Validate the plugin:
+
+```powershell
+npm exec streamdeck -- validate com.0xjessel.arctis-headset-battery.sdPlugin
+```
+
+## Development Commands
+
+```powershell
+npm run build
+npm run watch
+npm run read:battery
+npm run read:battery -- --device=headset
+npm run read:battery -- --device=mouse
+```
+
+On Windows, if `npm` is not available in PowerShell:
+
+```powershell
+& "C:\Program Files\nodejs\npm.cmd" run read:battery -- --device=headset
+& "C:\Program Files\nodejs\npm.cmd" run read:battery -- --device=mouse
+```
+
+## Testing Device Reads
+
+You can test battery reading without Stream Deck:
+
+```powershell
 npm run read:battery
 ```
 
-This will:
+Filter by device type:
 
-1. Scan for compatible SteelSeries battery devices
-2. Display detailed information about all detected devices
-3. Connect to the appropriate interface
-4. Read and display the battery level
-
-Example output:
-
-```
-Found SteelSeries devices:
-Device 1:
-  VendorID: 0x1038
-  ProductID: 0x12ad
-  Product: SteelSeries Arctis 7
-  Usage: 1
-  UsagePage: 12
-Device 2:
-  VendorID: 0x1038
-  ProductID: 0x12ad
-  Product: SteelSeries Arctis 7
-  Usage: 514
-  UsagePage: 65347
-Successfully connected to Arctis 7 (Arctis 7 2019)
-Headset: Arctis 7 (Arctis 7 2019)
-Battery Level: 100%
+```powershell
+npm run read:battery -- --device=headset
+npm run read:battery -- --device=mouse
 ```
 
-## Contributing
+The script scans SteelSeries HID devices, lists matching interfaces, connects to the preferred battery interface, and prints:
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+- detected device name
+- device type
+- battery level
+- charging state when available
+- raw HID response bytes
+
+## Stream Deck Development Install
+
+Enable Stream Deck developer mode:
+
+```powershell
+npm exec streamdeck -- dev
+```
+
+Link the plugin during development:
+
+```powershell
+npm exec streamdeck -- link com.0xjessel.arctis-headset-battery.sdPlugin
+```
+
+Restart the plugin:
+
+```powershell
+npm exec streamdeck -- restart com.0xjessel.arctis-headset-battery
+```
+
+If the plugin is already installed and not linked, copy the built plugin files into:
+
+```text
+%APPDATA%\Elgato\StreamDeck\Plugins\com.0xjessel.arctis-headset-battery.sdPlugin
+```
+
+Because `node-hid` is a native dependency and is external in the Rollup build, make sure it exists in the installed plugin folder:
+
+```powershell
+$installed = Resolve-Path "$env:APPDATA\Elgato\StreamDeck\Plugins\com.0xjessel.arctis-headset-battery.sdPlugin"
+& "C:\Program Files\nodejs\npm.cmd" install --omit=dev --prefix $installed.Path node-hid@3.1.2
+```
+
+## Current HID Protocol Notes
+
+### Legacy Arctis
+
+Legacy Arctis devices use:
+
+```text
+Command: [0x06, 0x18]
+Battery byte: response[2]
+```
+
+The plugin caps valid percentage values at 100.
+
+### Arctis Nova 7 Gen 2 Wireless
+
+Nova 7 Gen 2 uses:
+
+```text
+Command: [0x00, 0xb0]
+Expected response byte 0: 0xb0
+Battery byte: response[2]
+Charging byte: response[3]
+```
+
+Battery can be reported either as a direct percentage or as a 0-4 scale depending on firmware/device behavior. Charging is interpreted as:
+
+- `1`: charging
+- `3`: discharging
+- other values: unknown
+
+### Aerox 5 Wireless
+
+Aerox 5 uses different commands depending on mode:
+
+```text
+Wired mode: [0x00, 0x92]
+2.4 GHz wireless mode: [0x00, 0xd2]
+Battery byte: response[1]
+```
+
+The high bit indicates charging. The lower bits are interpreted as a 5 percent bucket scale.
+
+For Aerox devices, the plugin filters to the preferred battery HID interface:
+
+```text
+Interface: 3
+Usage: 1
+UsagePage: 65472
+```
+
+## Polling Behavior
+
+The plugin reads battery state by polling HID devices:
+
+- default interval: 5 seconds
+- configurable range: 1-60 seconds
+- manual refresh: press the Stream Deck key
+- fast retry: 1 second after a short read failure
+- no overlapping HID reads
+
+Wireless devices can briefly disappear from HID enumeration. During short failures, the plugin keeps the last known percentage instead of immediately clearing the display.
+
+## Troubleshooting
+
+### The key does not update immediately
+
+Battery data comes from HID polling. Lower the polling interval or press the key to force a refresh. Some devices update their battery value slowly at the hardware/firmware level.
+
+### The key shows the wrong device
+
+Use `Device Type` and choose `Headsets only` or `Mice only`. This prevents auto mode from selecting the other supported device.
+
+### The percentage disappears briefly
+
+Short wireless disconnects are expected with some devices. The plugin keeps the last known value during short failures and retries quickly.
+
+### The property inspector does not show new options
+
+Click another action and then return to the battery action, or restart the Stream Deck app.
+
+### PowerShell blocks npm
+
+Use `npm.cmd` directly:
+
+```powershell
+& "C:\Program Files\nodejs\npm.cmd" install
+& "C:\Program Files\nodejs\npm.cmd" run build
+```
 
 ## License
 
 [MIT](LICENSE)
-
-## Technical Details
-
-### Polling and Updates
-
-The plugin checks the battery status in two ways:
-
-1. Automatic polling every 15 seconds (configurable from 5-60 seconds)
-2. Manual update when the user presses the key
-
-The default 15-second polling interval was chosen to balance responsiveness with battery life and system resource usage. Users can adjust this in the settings if they prefer more or less frequent updates.
-
-### Error Handling and Troubleshooting
-
-The plugin includes robust error handling for various scenarios:
-
-1. **Disconnected Headset**
-
-   - Display shows "-" when the headset is disconnected
-   - Continues polling to detect when headset becomes available
-   - No error alerts to avoid disrupting the user
-
-2. **USB Connection Issues**
-
-   - Automatically attempts to reconnect if the USB connection fails
-   - Tries multiple interfaces if the primary one isn't responding
-   - Falls back to disconnected state if all attempts fail
-
-3. **Invalid Battery Values**
-
-   - Caps battery percentage at 100% if device reports higher values
-   - Filters out invalid readings to prevent display glitches
-   - Maintains last known good value until next valid reading
-
-4. **Common Issues**
-   - If the key shows "-", try pressing it to force a refresh
-   - If charging detection isn't working, ensure the headset is connected directly to your PC (not through a USB hub)
-   - If battery updates seem delayed, try reducing the polling interval in settings
-
-### Device Communication Protocols
-
-The plugin communicates with supported devices using the HID (Human Interface Device) protocol. Legacy Arctis battery level is read as follows:
-
-1. **Command**: Send `[0x06, 0x18]` to the headset
-2. **Response**: The headset returns a multi-byte response:
-   - Bytes 0-1: Echo of the command (`0x06, 0x18`)
-   - Byte 2: Battery level (0-100, sometimes >100)
-   - Remaining bytes: Various status information
-
-Arctis Nova 7 Gen 2 Wireless uses a newer HID command:
-
-1. **Command**: Send `[0x00, 0xb0]`
-2. **Response**:
-   - Byte 0: Echo of the command (`0xb0`)
-   - Byte 2: Battery level as a percentage, or a 0-4 scale on some firmware versions
-   - Byte 3: Charging state (`1` charging, `3` discharging)
-
-Aerox 5 Wireless uses the SteelSeries mouse battery command:
-
-1. **Wired command**: Send `[0x00, 0x92]`
-2. **2.4 GHz wireless command**: Send `[0x00, 0xd2]`
-3. **Response**:
-   - Byte 1 lower 7 bits: Battery level bucket
-   - Byte 1 high bit: Charging flag
-
-### Finding the Correct Interface
-
-Not all HID interfaces on the headset support battery status reading. The plugin specifically looks for an interface with:
-
-- Usage: `514`
-- UsagePage: `65347`
-
-This has been verified to work with the Arctis 7 2019 model, but may vary for other models.
-
-### Battery Level
-
-The battery level is reported in byte 2 and can sometimes exceed 100%. The plugin caps the reported value at 100% for consistency.
-
-**Note on Battery Level Testing**: Our testing has primarily been conducted with the headset at or near 100% battery level. We haven't yet verified how the battery level is reported across the entire range (0-100%). It's possible that the Arctis 7 2019 might use a different scale (such as the 0-4 range mentioned in the [aarol.dev blog](https://aarol.dev/posts/arctis-hid/) for the Arctis Nova 7) when the battery is at lower levels. Further testing with partially discharged batteries would be needed to confirm the full behavior.
-
-**TODO**: Test the headset at various battery levels (75%, 50%, 25%, near empty) to verify whether the Arctis 7 2019 reports battery levels as 0-100 values or uses a different scale. Update the implementation if necessary based on findings.
-
-### Charging Status Detection
-
-After extensive testing, we've discovered a reliable method to detect when the headset is charging via USB connected to the PC:
-
-1. When the Arctis 7 2019 headset is connected directly to the PC via USB for charging, additional USB devices appear with:
-
-   - Product ID: `0x12ae`
-   - Product Name: `SteelSeries Arctis 7 Bootloader`
-   - Vendor ID: `0x1038`
-
-2. By detecting the presence of these bootloader devices, we can determine if the headset is currently charging via the PC's USB port.
-
-3. **Limitations**:
-
-   - This method only works when the headset is charging via the PC's USB port
-   - It won't detect charging from other power sources (like wall adapters or power banks)
-   - It requires the headset to be directly connected to the PC, not through a USB hub
-
-4. **Advantages**:
-   - This is more reliable than trying to interpret the HID response bytes
-   - It provides a clear binary indication (charging/not charging) without ambiguity
-   - It works regardless of whether the headset is turned on or off
-
-This approach was developed after we found that the HID response bytes did not provide consistent charging status information.
-
-### Note on HID Response Charging Status Detection
-
-**Important**: Our initial attempts to determine charging status from the HID response bytes were unsuccessful for the Arctis 7 2019 model.
-
-Our testing revealed:
-
-1. The response bytes do not consistently indicate charging status in a way that matches expected patterns from other implementations.
-
-2. When testing with the headset plugged in and turned on vs. unplugged and turned on, we observed inconsistent values in bytes that were expected to indicate charging status.
-
-3. Different tests with the same physical state (plugged in or unplugged) produced different values in the response bytes.
-
-4. No single byte in the response reliably indicated the charging state across multiple tests.
-
-5. Our findings differ significantly from those described in [this blog post](https://aarol.dev/posts/arctis-hid/) about the Arctis Nova 7 model. The blog describes a consistent pattern for charging status in byte 3, but our tests with the Arctis 7 2019 showed inconsistent values that did not follow the described pattern.
